@@ -1,1 +1,0 @@
-Check xem messages có đang hiển thị đúng trong ChatArea không
