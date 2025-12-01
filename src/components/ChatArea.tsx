@@ -109,7 +109,7 @@ export const ChatArea = ({ messages, onSendMessage, onGetBotResponse }: ChatArea
   return (
     <div className="flex-1 flex flex-col h-screen bg-white">
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
+      <div className="flex-1 overflow-y-auto px-4 py-6 pt-16 md:pt-6">
         {messages.length === 0 ? (
           <div className="h-full flex items-center justify-center text-gray-400">
             <div className="text-center">
@@ -137,34 +137,31 @@ export const ChatArea = ({ messages, onSendMessage, onGetBotResponse }: ChatArea
       </div>
 
       {/* Input area */}
-      <div className="bg-white pb-16">
+      <div className="bg-white pb-4 px-4 md:pb-16">
         {!messages.length ? (
-          <div className="flex justify-center">
-            <div className="max-w-[700px] mb-4">
-              <div className="flex items-center justify-center gap-3 flex-wrap">
-                {randomQuestions?.map((question, index) => {
-                  return (
-                    <div
-                      key={index}
-                      style={{
-                        animation: `fade-in ${300 + index * 150}ms ease-in-out`,
-                      }}
-                    >
-                      <Button
-                        key={index}
-                        type="dashed"
-                        className={`!h-[60px] text-left p-3 w-[640px] font-roboto !block !justify-start !items-start `}
-                        onClick={() => onSendMessage(question.title)}
-                      >
-                        <div className="text-[#575757] text-line-clamp-2 text-left text-[16px]">
-                          <p>{question.title}</p>
-                        </div>
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+          <div className="w-full max-w-3xl mx-auto mb-4">
+            {randomQuestions?.map((question, index) => {
+              return (
+                <Button
+                  style={{
+                    animation: `fade-in ${300 + index * 150}ms ease-in-out`,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}
+                  key={index}
+                  type="dashed"
+                  className="!text-[#575757] !text-[13px] md:!text-[16px] !w-full !mb-4 !h-[52px] md:!h-[72px] !bg-white"
+                  onClick={() => onSendMessage(question.title)}
+                >
+                  {question.title}
+                </Button>
+              );
+            })}
           </div>
         ) : null}
         <div
@@ -180,7 +177,7 @@ export const ChatArea = ({ messages, onSendMessage, onGetBotResponse }: ChatArea
             onKeyPress={handleKeyPress}
             placeholder="Nhập câu hỏi của bạn..."
             autoSize={{ minRows: 2, maxRows: 6 }}
-            className="flex-1 !border-none !outline-none !shadow-none !text-[18px] !bg-transparent"
+            className="flex-1 !border-none !outline-none !shadow-none text-[14px]! md:text-[18px]! bg-transparent!"
             disabled={isLoading}
           />
         </div>

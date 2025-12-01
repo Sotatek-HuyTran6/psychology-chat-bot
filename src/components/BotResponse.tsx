@@ -38,19 +38,39 @@ export const BotResponse = ({
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let buffer = '';
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
-      result += chunk;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
 
-      setBotText((prev) => {
-        const newText = prev ? (prev ?? '') + chunk : chunk;
-        setPreviousLength(prev?.length || 0);
-        return newText;
-      });
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6).trim();
+
+          if (data === '[DONE]') {
+            break;
+          }
+
+          try {
+            const parsed = JSON.parse(data);
+            const text = parsed.text || '';
+            result += text;
+
+            setBotText((prev) => {
+              const newText = prev ? (prev ?? '') + text : text;
+              setPreviousLength(prev?.length || 0);
+              return newText;
+            });
+          } catch (e) {
+            console.error('Failed to parse SSE data:', e);
+          }
+        }
+      }
     }
 
     return result || '';

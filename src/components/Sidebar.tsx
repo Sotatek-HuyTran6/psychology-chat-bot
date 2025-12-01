@@ -19,7 +19,7 @@ export const Sidebar = ({
   onDeleteConversation,
 }: SidebarProps) => {
   return (
-    <div className="h-screen w-80 bg-[#e9eef6] flex flex-col">
+    <div className="h-full w-full md:w-80  bg-[#e9eef6] flex flex-col">
       {/* Header with Add button */}
       <div className="p-4 border-b border-slate-200">
         <RippleButton
@@ -32,7 +32,7 @@ export const Sidebar = ({
       </div>
 
       {/* Conversations list */}
-      <div className="flex-1 overflow-y-auto px-4 py-3">
+      <div className="flex-grow-1 overflow-y-auto px-4 py-3">
         <List
           dataSource={conversations}
           renderItem={(conv) => (
