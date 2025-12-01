@@ -1,13 +1,10 @@
 import { RobotOutlined } from '@ant-design/icons';
-import { GoogleGenAI } from '@google/genai';
 import { Avatar, Spin } from 'antd';
 import { marked } from 'marked';
 import { useEffect, useState } from 'react';
 import type { MessagePair } from '../types';
 
-const GEMINI_API_KEY = 'AIzaSyB2mAxah1Rj255LfSd9OsYkvJjgsiEaHRM';
-
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+const PROXY_SERVER_URL = 'https://chatbot-reverse-proxy.onrender.com/api/chat';
 
 interface BotResponseProps {
   messagePair: MessagePair;
@@ -25,19 +22,37 @@ export const BotResponse = ({
 
   const sendQueryToBot = async (query: string) => {
     let result = '';
-    const response = await ai.models.generateContentStream({
-      model: 'gemini-2.5-flash',
-      contents: query,
+
+    const response = await fetch(PROXY_SERVER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Connection: 'keep-alive',
+      },
+      body: new URLSearchParams({ query }),
     });
 
-    for await (const chunk of response) {
-      result += chunk.text;
+    if (!response.ok || !response.body) {
+      throw new Error('Failed to fetch from proxy server');
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      result += chunk;
+
       setBotText((prev) => {
-        const newText = prev ? (prev ?? '') + chunk.text : chunk.text;
+        const newText = prev ? (prev ?? '') + chunk : chunk;
         setPreviousLength(prev?.length || 0);
         return newText;
       });
     }
+
     return result || '';
   };
 
