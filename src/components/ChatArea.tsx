@@ -1,9 +1,10 @@
-import { RobotOutlined } from '@ant-design/icons';
+import { RobotOutlined, SendOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { MessagePair } from '../types';
 import { BotResponse } from './BotResponse';
 import { MyResponse } from './MyResponse';
+import RippleButton from './RippleButton';
 
 const { TextArea } = Input;
 
@@ -165,7 +166,7 @@ export const ChatArea = ({ messages, onSendMessage, onGetBotResponse }: ChatArea
           </div>
         ) : null}
         <div
-          className="max-w-3xl mx-auto flex gap-2 border border-[#dddddd] rounded-2xl p-2 "
+          className="max-w-3xl mx-auto flex gap-2 border border-[#dddddd] rounded-2xl p-2 items-end"
           style={{
             boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
             background: isLoading ? 'bg-[#0000000A]' : 'trasparent',
@@ -180,6 +181,13 @@ export const ChatArea = ({ messages, onSendMessage, onGetBotResponse }: ChatArea
             className="flex-1 !border-none !outline-none !shadow-none text-[14px]! md:text-[18px]! bg-transparent!"
             disabled={isLoading}
           />
+          <RippleButton
+            onClick={handleSend}
+            className={`!w-10 !h-10 ${isLoading || !input.trim() ? '!cursor-not-allowed ' : ''} !rounded-full !flex !items-center !justify-center`}
+            disabled={isLoading || !input.trim()}
+          >
+            <SendOutlined />
+          </RippleButton>
         </div>
       </div>
     </div>

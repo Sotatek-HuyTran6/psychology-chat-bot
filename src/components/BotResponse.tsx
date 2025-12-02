@@ -2,9 +2,8 @@ import { RobotOutlined } from '@ant-design/icons';
 import { Avatar, Spin } from 'antd';
 import { marked } from 'marked';
 import { useEffect, useState } from 'react';
+import axiosInstance from '../config/axios.config';
 import type { MessagePair } from '../types';
-
-const PROXY_SERVER_URL = 'https://chatbot-reverse-proxy.onrender.com/api/chat';
 
 interface BotResponseProps {
   messagePair: MessagePair;
@@ -23,54 +22,66 @@ export const BotResponse = ({
   const sendQueryToBot = async (query: string) => {
     let result = '';
 
-    const response = await fetch(PROXY_SERVER_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Connection: 'keep-alive',
-      },
-      body: new URLSearchParams({ query }),
-    });
+    try {
+      const response = await axiosInstance.post(
+        '/api/chat',
+        new URLSearchParams({ query, conversation_id: messagePair.conversationId }).toString(),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Connection: 'keep-alive',
+          },
+          responseType: 'stream',
+          adapter: 'fetch',
+        },
+      );
 
-    if (!response.ok || !response.body) {
-      throw new Error('Failed to fetch from proxy server');
-    }
+      // Axios với fetch adapter trả về ReadableStream
+      const fetchResponse = response.data as ReadableStream;
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
+      if (!fetchResponse) {
+        throw new Error('Failed to fetch from proxy server');
+      }
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+      const reader = fetchResponse.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
 
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6).trim();
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
 
-          if (data === '[DONE]') {
-            break;
-          }
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6).trim();
 
-          try {
-            const parsed = JSON.parse(data);
-            const text = parsed.text || '';
-            result += text;
+            if (data === '[DONE]') {
+              break;
+            }
 
-            setBotText((prev) => {
-              const newText = prev ? (prev ?? '') + text : text;
-              setPreviousLength(prev?.length || 0);
-              return newText;
-            });
-          } catch (e) {
-            console.error('Failed to parse SSE data:', e);
+            try {
+              const parsed = JSON.parse(data);
+              const text = parsed.text || '';
+              result += text;
+
+              setBotText((prev) => {
+                const newText = prev ? (prev ?? '') + text : text;
+                setPreviousLength(prev?.length || 0);
+                return newText;
+              });
+            } catch (e) {
+              console.error('Failed to parse SSE data:', e);
+            }
           }
         }
       }
+    } catch (error) {
+      console.error('Error sending query to bot:', error);
+      throw error;
     }
 
     return result || '';
