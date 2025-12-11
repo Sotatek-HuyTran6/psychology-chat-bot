@@ -64,6 +64,7 @@ export const authApi = {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
       localStorage.removeItem('user');
+      localStorage.removeItem('auth-storage');
     }
   },
 

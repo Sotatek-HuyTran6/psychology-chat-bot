@@ -1,8 +1,9 @@
 import { Form, Input, message } from 'antd';
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import type { SignUpRequest } from '../types/auth.types';
-import RippleButton from './RippleButton';
+import { useAuth } from '@/hooks/useAuth';
+import type { SignUpRequest } from '@/types/auth.types';
+import RippleButton from '@/components/common/RippleButton';
+import { useNavigate } from 'react-router-dom';
 
 interface SignUpFormProps {
   setIsSignupModalOpen: (open: boolean) => void;
@@ -13,6 +14,7 @@ export const SignUpForm = ({ setIsSignupModalOpen, setIsLoginModalOpen }: SignUp
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const [signupForm] = Form.useForm();
+  const navigate = useNavigate();
 
   const onFinish = async (values: SignUpRequest) => {
     try {
@@ -28,6 +30,7 @@ export const SignUpForm = ({ setIsSignupModalOpen, setIsLoginModalOpen }: SignUp
       message.success('Đăng ký thành công!');
       setIsSignupModalOpen(false);
       setIsLoginModalOpen(true);
+      navigate('/login');
     } catch (error) {
       message.error(error instanceof Error ? error.message : 'Đăng ký thất bại');
     } finally {
@@ -114,7 +117,7 @@ export const SignUpForm = ({ setIsSignupModalOpen, setIsLoginModalOpen }: SignUp
       </Form.Item>
 
       <div className="text-center mt-4 mb-4">
-        <span className="text-slate-600">Đã có tài khoản? </span>
+        <span className="text-[#3b142a]">Đã có tài khoản? </span>
         <a
           className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium"
           onClick={() => {
@@ -131,7 +134,7 @@ export const SignUpForm = ({ setIsSignupModalOpen, setIsLoginModalOpen }: SignUp
         <RippleButton
           onClick={() => signupForm.submit()}
           loading={loading}
-          className="w-full !h-[52px] rounded-3xl text-[#0842a0] bg-[#d3e3fd] hover:bg-[#d3e3fd]"
+          className="w-[120px] h-[48px] text-[15px] !font-bold rounded-sm text-white bg-[#e85cac] hover:!bg-[#e85cac]"
         >
           Đăng ký
         </RippleButton>

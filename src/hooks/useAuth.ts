@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { authApi } from '../api/auth.api';
-import type { User, SignInRequest, SignUpRequest } from '../types/auth.types';
-import { useAuthContext } from '../contexts/AuthContext';
+import { useAuthStore } from '../stores/authStore';
+import type { SignInRequest, SignUpRequest, User } from '../types/auth.types';
 
 interface UseAuthReturn {
   user: User | null;
@@ -15,28 +15,24 @@ interface UseAuthReturn {
 }
 
 export const useAuth = (): UseAuthReturn => {
-  const { user, setUser, setAccessToken, logout } = useAuthContext();
+  const { user, setUser, logout, setToken } = useAuthStore();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Kiểm tra authentication khi component mount
   useEffect(() => {
     const initAuth = async () => {
       try {
         if (authApi.isAuthenticated()) {
-          // Nếu đã có user trong context, không cần fetch lại
           if (user) {
             setIsLoading(false);
             return;
           }
 
-          // Fetch user mới từ API
           const currentUser = await authApi.getCurrentUser();
           setUser(currentUser);
         }
       } catch (err) {
         console.error('Failed to fetch user:', err);
-        // Nếu fetch fail, clear auth state
         logout();
       } finally {
         setIsLoading(false);
@@ -52,7 +48,7 @@ export const useAuth = (): UseAuthReturn => {
       setError(null);
       const response = await authApi.signIn(data);
       setUser(response.user);
-      setAccessToken(response.access_token);
+      setToken({ accessToken: response.access_token, refreshToken: response.refresh_token });
     } catch (err: unknown) {
       const errorMessage =
         (err as { response?: { data?: { message?: string } } }).response?.data?.message ||
@@ -68,8 +64,7 @@ export const useAuth = (): UseAuthReturn => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await authApi.signUp(data);
-      console.log('Sign up response:', response);
+      await authApi.signUp(data);
     } catch (err: unknown) {
       const errorMessage =
         (err as { response?: { data?: { message?: string } } }).response?.data?.message ||

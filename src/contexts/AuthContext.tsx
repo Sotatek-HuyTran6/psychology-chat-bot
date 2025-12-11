@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem('user');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('auth-storage');
   };
 
   // Listen localStorage changes từ tab khác

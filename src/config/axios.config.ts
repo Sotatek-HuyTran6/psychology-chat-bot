@@ -13,6 +13,9 @@ const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
+// Biến để lưu promise refresh token đang chạy
+let refreshTokenPromise: Promise<string> | null = null;
+
 // Request Interceptor
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
@@ -21,16 +24,6 @@ axiosInstance.interceptors.request.use(
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    // Log request (chỉ trong development)
-    if (import.meta.env.DEV) {
-      console.log('🚀 Request:', {
-        method: config.method?.toUpperCase(),
-        url: config.url,
-        data: config.data,
-        headers: config.headers,
-      });
     }
 
     return config;
@@ -44,15 +37,6 @@ axiosInstance.interceptors.request.use(
 // Response Interceptor
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
-    // Log response (chỉ trong development)
-    if (import.meta.env.DEV) {
-      console.log('✅ Response:', {
-        status: response.status,
-        url: response.config.url,
-        data: response.data,
-      });
-    }
-
     return response;
   },
   async (error: AxiosError) => {
@@ -77,36 +61,49 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Lấy refresh token
-        // const refreshToken = localStorage.getItem('refresh_token');
+        // Nếu đã có một refresh token request đang chạy, chờ nó
+        if (!refreshTokenPromise) {
+          refreshTokenPromise = (async () => {
+            try {
+              const refreshToken = localStorage.getItem('refresh_token');
 
-        // if (!refreshToken) {
-        //   // Không có refresh token, redirect to login
-        //   handleLogout();
-        //   return Promise.reject(error);
-        // }
+              if (!refreshToken) {
+                throw new Error('No refresh token');
+              }
 
-        // // Call API refresh token
-        // const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-        //   refreshToken,
-        // });
+              // Call API refresh token
+              const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+                refresh_token: refreshToken,
+              });
 
-        // const { accessToken, refreshToken: newRefreshToken } = response.data;
+              const { access_token: accessToken, refresh_token: newRefreshToken } = response.data;
 
-        // // Lưu token mới
-        // localStorage.setItem('access_token', accessToken);
-        // if (newRefreshToken) {
-        //   localStorage.setItem('refresh_token', newRefreshToken);
-        // }
+              // Lưu token mới
+              localStorage.setItem('access_token', accessToken);
+              if (newRefreshToken) {
+                localStorage.setItem('refresh_token', newRefreshToken);
+              }
 
-        // // Retry request với token mới
-        // if (originalRequest.headers) {
-        //   originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        // }
+              return accessToken;
+            } finally {
+              // Reset promise sau khi hoàn thành
+              refreshTokenPromise = null;
+            }
+          })();
+        }
+
+        // Chờ refresh token hoàn thành
+        const newAccessToken = await refreshTokenPromise;
+
+        // Retry request với token mới
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        }
 
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         // Refresh token failed, logout user
+        refreshTokenPromise = null;
         handleLogout();
         return Promise.reject(refreshError);
       }
@@ -142,9 +139,10 @@ const handleLogout = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('user');
-
-  // Redirect to login page
-  window.location.href = '/login';
+  localStorage.removeItem('auth-storage');
+  localStorage.removeItem('mental-health-storage');
+  localStorage.removeItem('mental-health-storage');
+  window.location.reload();
 };
 
 export default axiosInstance;

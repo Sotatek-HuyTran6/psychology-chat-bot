@@ -2,7 +2,8 @@ import { Form, Input, message } from 'antd';
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import type { SignInRequest } from '../types/auth.types';
-import RippleButton from './RippleButton';
+import RippleButton from './common/RippleButton';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormProps {
   setIsLoginModalOpen: (open: boolean) => void;
@@ -13,6 +14,7 @@ export const LoginForm = ({ setIsLoginModalOpen, setIsSignupModalOpen }: LoginFo
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
   const [loginForm] = Form.useForm();
+  const navigate = useNavigate();
 
   const onFinish = async (values: SignInRequest) => {
     try {
@@ -20,6 +22,7 @@ export const LoginForm = ({ setIsLoginModalOpen, setIsSignupModalOpen }: LoginFo
       await signIn(values);
       message.success('Đăng nhập thành công!');
       setIsLoginModalOpen(false);
+      navigate('/chat');
     } catch (error) {
       message.error(error instanceof Error ? error.message : 'Đăng nhập thất bại');
     } finally {
@@ -49,24 +52,22 @@ export const LoginForm = ({ setIsLoginModalOpen, setIsSignupModalOpen }: LoginFo
       </Form.Item>
 
       <div className="text-center mt-4 mb-4">
-        <span className="text-slate-600">Chưa có tài khoản? </span>
+        <span className="!text-[#3b142a]">Chưa có tài khoản? </span>
         <a
-          className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium"
+          className="text-[#3b142a] hover:text-blue-700 cursor-pointer font-medium"
           onClick={() => {
-            setIsLoginModalOpen(false);
-            loginForm.resetFields();
-            setIsSignupModalOpen(true);
+             navigate('/signup');
           }}
         >
           Đăng ký ngay
         </a>
       </div>
 
-      <Form.Item>
+      <Form.Item className='flex justify-end mt-5'>
         <RippleButton
-          onClick={() => loginForm.submit()}
           loading={loading}
-          className="w-full !h-[52px] rounded-3xl text-[#0842a0] bg-[#d3e3fd] hover:bg-[#d3e3fd]"
+          onClick={() => loginForm.submit()}
+          className="w-[120px] h-[48px] text-[15px] !font-bold rounded-sm text-white bg-[#e85cac] hover:!bg-[#e85cac]"
         >
           Đăng nhập
         </RippleButton>

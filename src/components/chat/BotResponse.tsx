@@ -1,9 +1,9 @@
+import axiosInstance from '@/config/axios.config';
 import { RobotOutlined } from '@ant-design/icons';
 import { Avatar, Spin } from 'antd';
 import { marked } from 'marked';
 import { useEffect, useState } from 'react';
-import axiosInstance from '../config/axios.config';
-import type { MessagePair } from '../types';
+import type { MessagePair } from '@/types';
 
 interface BotResponseProps {
   messagePair: MessagePair;
@@ -111,17 +111,24 @@ export const BotResponse = ({
 
   return (
     <div className="flex gap-3 justify-start">
-      <Avatar icon={<RobotOutlined />} className="bg-blue-500 shrink-0" />
-      <div className="max-w-[70%] rounded-lg px-4 py-3 text-gray-900">
+      <div className='bg-[#3b142a] w-[48px] h-[48px] flex items-center justify-center rounded-lg shrink-0'>
+        <div className="!max-w-[32px]">
+          <img
+            src="./images/logo/wayground.png"
+            alt="Logo"
+          />
+        </div>
+      </div>
+      <div className="max-w-[70%] rounded-lg px-4 py-3 text-[#3b142a]">
         <div className="whitespace-pre-wrap wrap-break-word">
           {botText === null ? (
             <Spin size="small" />
           ) : (
-            <div className="whitespace-pre-wrap wrap-break-word">
+            <div className="whitespace-pre-wrap wrap-break-word text-[18px] max-md:text-[15px]">
               <span dangerouslySetInnerHTML={{ __html: marked.parse(oldText) }} />
               <span
                 key={botText}
-                style={{ animation: 'fade-up 400ms ease-in-out' }}
+                style={{ animation: 'fade-in 400ms ease-in-out' }}
                 dangerouslySetInnerHTML={{ __html: marked.parse(newText) }}
               />
             </div>

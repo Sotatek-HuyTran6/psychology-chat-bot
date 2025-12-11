@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
 
 :root {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,6 +13,7 @@
 }
 
 body {
+  /* font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; */
   margin: 0;
   padding: 0;
   min-width: 320px;
@@ -22,6 +23,7 @@ body {
 
 * {
   box-sizing: border-box;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
 @keyframes fade-in {
@@ -59,4 +61,24 @@ body {
     transform: scale(4);
     opacity: 0;
   }
+}
+
+/* #f3efda milk */ 
+/* #e972be pink */
+/* #3b142a red */
+
+/* Custom dropdown styles */
+.custom-dropdown .ant-dropdown-menu {
+  background-color: #f3efda !important;
+  border-radius: 8px !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.custom-dropdown .ant-dropdown-menu-item {
+  background-color: transparent !important;
+}
+
+.custom-dropdown .ant-dropdown-menu-item:hover {
+  background-color: rgba(59, 20, 42, 0.1) !important;
 }
