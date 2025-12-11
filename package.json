@@ -6,7 +6,9 @@
   "homepage": "Sotatek-HuyTran6.github.io",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build --mode production",
+    "build-with-tsc": "tsc -b && vite build",
+    "build-safe": "tsc -p tsconfig.build.json --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "test": "vite test",
