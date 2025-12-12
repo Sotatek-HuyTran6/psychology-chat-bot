@@ -34,7 +34,7 @@ export const ChatPage = () => {
   };
 
   return (
-    <div className='h-full'>
+    <div>
       {
         screens.md ? (
           <div className='flex'>

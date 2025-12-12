@@ -9,6 +9,7 @@ import { MentalHealthPage } from './components/mental-health';
 import { HomePage } from './components/home';
 import { LoginPage } from './components/login';
 import { SignUpPage } from './components/signup';
+import UserAuthLayout from './components/layout/user-auth-layout';
 
 function App() {
 
@@ -32,9 +33,11 @@ function App() {
       <BrowserRouter>
         <div className="h-screen w-screen">
           <Routes>
-            <Route index element={<HomePage />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/signup' element={<SignUpPage />} />
+            <Route element={<UserAuthLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='/signup' element={<SignUpPage />} />
+            </Route>
             <Route element={<UserLayout />}>
               {/* Others Page */}
               <Route path="/chat" element={<ChatPage />} />

@@ -1,6 +1,5 @@
 import { Descriptions, Skeleton, Tag, message } from 'antd';
 import { useEffect } from 'react';
-import { MdArrowBack } from 'react-icons/md';
 import { EMO_STATE, getEmojiByState } from '@/constant';
 import { useMentalHealthEvaluation } from '@/hooks/features/useMentalHealthEvaluation';
 import { useMentalHealthStore } from '@/stores/mentalHealthStore';
