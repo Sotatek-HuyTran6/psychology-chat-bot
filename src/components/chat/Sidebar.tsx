@@ -22,6 +22,7 @@ interface SidebarProps {
   onDeleteConversation: (id: string) => void;
   changeTab: (tab: '' | 'evaluation') => void;
   allowSlide?: boolean;
+  rounded: boolean;
 }
 
 export const Sidebar = ({
@@ -31,12 +32,13 @@ export const Sidebar = ({
   onAddConversation,
   onDeleteConversation,
   allowSlide = false,
+  rounded,
 }: SidebarProps) => {
 
   const swiper = useSwiper();
 
   return (
-    <div className="h-full max-md:w-full w-80  bg-[#f3d6b5] flex flex-col">
+    <div className={`h-full max-md:w-full w-80  bg-[#f3d6b5] flex flex-col ${rounded ? 'rounded-sm' : ''}`}>
       {/* Header with Add button */}
       <div className="py-[22px] px-4 border-b border-slate-200 mt-8">
         <RippleButton

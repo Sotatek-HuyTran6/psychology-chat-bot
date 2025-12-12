@@ -85,7 +85,7 @@ export const TestPage = () => {
 
   if (isError) {
     return (
-      <div className='overflow-y-auto h-[calc(100vh-64px)] bg-[#f3efda] text-[#3b142a]'>
+      <div className='text-[#3b142a]'>
         <div className="max-w-4xl w-full mx-auto p-6">
           <div className="text-center py-8">
             <p className="text-red-600 mb-4">Có lỗi xảy ra khi tải danh sách bài kiểm tra</p>
@@ -99,7 +99,7 @@ export const TestPage = () => {
   }
 
   return (
-    <div className='overflow-y-auto h-[calc(100vh-64px)] bg-[#f3efda] text-[#3b142a]'>
+    <div className='text-[#3b142a]'>
       <div className="max-w-4xl w-full mx-auto px-6 pt-6 pb-12">
         <div className="mb-8" style={{ animation: `fade-in ${300 + 0 * 150}ms ease-in-out` }}>
           <h1 className="text-3xl font-bold text-[#3b142a] mb-2 mt-4">Bài kiểm tra tâm lý nhanh</h1>

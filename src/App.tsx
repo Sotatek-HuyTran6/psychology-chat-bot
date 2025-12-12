@@ -4,7 +4,6 @@ import { NotingPage } from '@/components/notes/NotingPage';
 import { TestPage } from '@/components/test';
 import { ConfigProvider } from 'antd';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
 import { MentalHealthPage } from './components/mental-health';
 import { HomePage } from './components/home';
 import { LoginPage } from './components/login';
@@ -31,22 +30,20 @@ function App() {
       }}
     >
       <BrowserRouter>
-        <div className="h-screen w-screen">
-          <Routes>
-            <Route element={<UserAuthLayout />}>
-              <Route index element={<HomePage />} />
-              <Route path='/login' element={<LoginPage />} />
-              <Route path='/signup' element={<SignUpPage />} />
-            </Route>
-            <Route element={<UserLayout />}>
-              {/* Others Page */}
-              <Route path="/chat" element={<ChatPage />} />
-              <Route path="/mental-health" element={<MentalHealthPage />} />
-              <Route path="/note" element={<NotingPage />} />
-              <Route path="/test" element={<TestPage />} />
-            </Route>
-          </Routes>
-        </div>
+        <Routes>
+          <Route element={<UserAuthLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<SignUpPage />} />
+          </Route>
+          <Route element={<UserLayout />}>
+            {/* Others Page */}
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/mental-health" element={<MentalHealthPage />} />
+            <Route path="/note" element={<NotingPage />} />
+            <Route path="/test" element={<TestPage />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </ConfigProvider>
   );

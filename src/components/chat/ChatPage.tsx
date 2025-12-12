@@ -34,11 +34,11 @@ export const ChatPage = () => {
   };
 
   return (
-    <div>
+    <div className='h-[calc(100vh-80px)]'>
       {
         screens.md ? (
-          <div className='flex'>
-            <div>
+          <div className='flex h-full'>
+            <div className='mt-4 mb-4 mr-4 pl-4 rounded-md'>
               <Sidebar
                 conversations={conversations}
                 currentConversationId={currentConversationId}
@@ -46,6 +46,7 @@ export const ChatPage = () => {
                 onAddConversation={handleAddConversation}
                 onDeleteConversation={deleteConversation}
                 changeTab={() => null}
+                rounded={true}
               />
             </div>
             <ChatArea
@@ -71,6 +72,7 @@ export const ChatPage = () => {
                     onDeleteConversation={deleteConversation}
                     changeTab={() => null}
                     allowSlide={true}
+                    rounded={false}
                   />
                 </div>
               </SwiperSlide>

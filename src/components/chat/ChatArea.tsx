@@ -106,7 +106,7 @@ export const ChatArea = ({
   } = useChatScroll(messages, false);
 
   return (
-    <div className="flex-1 flex flex-col h-[calc(100vh-64px)] bg-[#f3efda]">
+    <div className="flex-1 flex flex-col bg-[#f3efda] h-full">
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto px-4 py-6 pt-16 md:pt-6"
         ref={containerRef}

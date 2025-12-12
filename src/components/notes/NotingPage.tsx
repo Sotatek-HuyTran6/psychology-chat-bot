@@ -81,7 +81,7 @@ export const NotingPage = () => {
   };
 
   return (
-    <div className='overflow-y-auto h-[calc(100vh-64px)] bg-[#f3efda]'>
+    <div>
       <div className="max-w-4xl w-full mx-auto p-6">
         {/* Header */}
         <div className="mb-8" style={{ animation: `fade-in ${300 + 0 * 150}ms ease-in-out` }}>
