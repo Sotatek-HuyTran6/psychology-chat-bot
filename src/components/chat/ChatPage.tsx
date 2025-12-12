@@ -34,7 +34,7 @@ export const ChatPage = () => {
   };
 
   return (
-    <div className='h-[calc(100vh-80px)]'>
+    <div className='h-[calc(100dvh-80px)]'>
       {
         screens.md ? (
           <div className='flex h-full'>
@@ -57,13 +57,13 @@ export const ChatPage = () => {
             />
           </div>
         ) : (
-           <div className='h-[calc(100vh-64px)]'>
+           <div className='h-[calc(100dvh-64px)]'>
             <Swiper
               allowTouchMove={true}
               slidesPerView={1}
             >
               <SwiperSlide className='h-full'>
-                <div className='h-[calc(100vh-64px)]'>
+                <div className='h-[calc(100dvh-64px)]'>
                   <Sidebar
                     conversations={conversations}
                     currentConversationId={currentConversationId}
@@ -77,7 +77,7 @@ export const ChatPage = () => {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className='h-[calc(100vh-64px)]'>
+                <div className='h-[calc(100dvh-64px)]'>
                   <ChatArea
                     messages={currentConversation?.messages || []}
                     onSendMessage={handleSendMessage}

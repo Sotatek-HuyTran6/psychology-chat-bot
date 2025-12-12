@@ -121,9 +121,7 @@ export const SignUpForm = ({ setIsSignupModalOpen, setIsLoginModalOpen }: SignUp
         <a
           className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium"
           onClick={() => {
-            setIsSignupModalOpen(false);
-            signupForm.resetFields();
-            setIsLoginModalOpen(true);
+            navigate('/login');
           }}
         >
           Đăng nhập ngay

@@ -63,7 +63,7 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-screen overflow-y-auto">
+    <div className="h-dvh overflow-y-auto">
       <div className="fixed bg-[#3b142a] h-[74px] py-4 top-0 left-0 w-full z-10">
         <div className="max-w-[1280px] mx-auto">
           <div className="px-4 flex justify-between items-center">
@@ -103,7 +103,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="min-h-screen bg-[#f3efda]">
+      <div className="min-h-dvh bg-[#f3efda]">
         <div className="max-w-[1280px] mx-auto pt-[140px] pb-20 px-4">
           <div className="mb-20">
             <h2 className="text-[54px] text-[#3b142a] font-normal text-center">

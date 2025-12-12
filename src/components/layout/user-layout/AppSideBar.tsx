@@ -233,7 +233,7 @@ const AppSidebar: React.FC = () => {
   return (
     <aside
       style={{ background: 'radial-gradient(circle,rgba(77, 25, 55, 1) 0%, rgba(89, 22, 56, 1) 50%, rgba(59, 20, 42, 1) 100%)' }}
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-[#3b142a] text-[#f3efda] h-screen transition-all duration-300 ease-in-out z-50 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-[#3b142a] text-[#f3efda] h-dvh transition-all duration-300 ease-in-out z-50 
         ${isExpanded || isMobileOpen ? 'w-[290px]' : isHovered ? 'w-[290px]' : 'w-[90px]'}
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0`}

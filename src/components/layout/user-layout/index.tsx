@@ -28,12 +28,12 @@ const LayoutContent: React.FC = () => {
   }
 
   return (
-    <div className='min-h-screen bg-[#f3efda]'>
+    <div className='min-h-dvh bg-[#f3efda]'>
       <div>
         <AppSidebar />
       </div>
       <div
-        className={`flex-1 transition-all duration-300 ease-in-out h-screen ${
+        className={`flex-1 transition-all duration-300 ease-in-out h-dvh ${
           isExpanded || isHovered ? 'lg:ml-[290px]' : 'lg:ml-[90px]'
         } ${isMobileOpen ? 'ml-0' : ''} overflow-auto`}
       >

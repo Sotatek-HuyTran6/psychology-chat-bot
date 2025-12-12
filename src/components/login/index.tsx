@@ -4,8 +4,8 @@ import { LoginForm } from "../LoginForm";
 
 export const LoginPage = () => {
   return (
-    <div className="h-screen overflow-y-auto">
-      <div className="bg-[#3b142a] min-h-screen h-auto">
+    <div className="h-dvh overflow-y-auto">
+      <div className="bg-[#3b142a] min-h-dvh h-auto">
         <div className="max-w-[1280px] mx-auto py-8 px-8 max-sm:px-4">
           <Link to="/">
             <div className='font-bold text-[18px] whitespace-nowrap text-[#e8589d] flex gap-2 items-center'>

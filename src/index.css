@@ -13,7 +13,7 @@
 }
 
 #root {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body {
@@ -89,17 +89,6 @@ html {
 /* #f3efda milk */ 
 /* #e972be pink */
 /* #3b142a red */
-
-/* Safari viewport height utilities */
-.h-screen-safari {
-  height: 100vh;
-  height: -webkit-fill-available;
-}
-
-.min-h-screen-safari {
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-}
 
 /* Custom dropdown styles */
 .custom-dropdown .ant-dropdown-menu {
